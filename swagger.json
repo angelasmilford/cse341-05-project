@@ -1,0 +1,317 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "description": "Pacific Islands API | API Key: mySuperSecretApiKey123456",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/islands": {
+      "get": {
+        "description": "Read all islands",
+        "parameters": [
+          {
+            "name": "apiKey",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new island",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "country",
+                "population",
+                "language",
+                "capital",
+                "subRegion",
+                "climate",
+                "mainIndustries",
+                "elevation"
+              ],
+              "properties": {
+                "name": { "type": "string", "example": "Fiji" },
+                "country": { "type": "string", "example": "Fiji" },
+                "population": { "type": "number", "example": 900000 },
+                "language": { "type": "string", "example": "Fijian" },
+                "capital": { "type": "string", "example": "Suva" },
+                "subRegion": { "type": "string", "example": "Melanesia" },
+                "climate": { "type": "string", "example": "Tropical" },
+                "mainIndustries": { "type": "string", "example": "Tourism, Fishing" },
+                "elevation": { "type": "number", "example": 1324 }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete all islands",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/traditions": {
+      "get": {
+        "description": "Read all traditions",
+        "parameters": [
+          {
+            "name": "apiKey",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new tradition",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": [
+                "name",
+                "traditionId",
+                "description",
+                "category",
+                "significance"
+              ],
+              "properties": {
+                "name": { "type": "string", "example": "Hula Dance" },
+                "islandId": { "type": "string", "example": "ISL001" },
+                "description": { "type": "string", "example": "Traditional cultural dance." },
+                "category": { "type": "string", "example": "Cultural" },
+                "significance": { "type": "string", "example": "Represents island identity." }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete all traditions",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/islands/{island_id}": {
+      "get": {
+        "description": "Read a specific island",
+        "parameters": [
+          {
+            "name": "island_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "Update a specific island",
+        "parameters": [
+          {
+            "name": "island_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Updated"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific island",
+        "parameters": [
+          {
+            "name": "island_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/traditions/{tradition_id}": {
+      "get": {
+        "description": "Read a specific tradition",
+        "parameters": [
+          {
+            "name": "tradition_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "apiKey",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "Update a specific tradition",
+        "parameters": [
+          {
+            "name": "tradition_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Updated"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific tradition",
+        "parameters": [
+          {
+            "name": "tradition_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

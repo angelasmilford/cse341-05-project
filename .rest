@@ -1,0 +1,17 @@
+### READ all data from the database
+GET http://localhost:4000/islands
+
+### READ one item from the database
+GET http://localhost:4000/islands/1
+
+### CREATE a new item in the database
+POST http://localhost:4000/islands
+
+### READ all traditions from the database
+GET http://localhost:4000/islands/1/traditions
+
+### READ one tradition from the database
+GET http://localhost:4000/islands/1/traditions/1
+
+### CREATE a new tradition in the database
+POST http://localhost:4000/islands/1/traditions
