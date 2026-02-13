@@ -5,7 +5,7 @@
     "description": "Pacific Islands API | API Key: mySuperSecretApiKey123456",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-05-project.onrender.com",
   "servers": [
     {
       "url": "http://localhost:3000",
@@ -14,7 +14,7 @@
   ],
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/islands": {
