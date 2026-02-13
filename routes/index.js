@@ -9,7 +9,7 @@ routes.use(
   '/',
   (docData = (req, res) => {
     let docData = {
-      documentationURL: ' ',
+      documentationURL: 'https://github.com/angelasmilford/cse341-05-project.git',
     };
     res.send(docData);
   })
