@@ -1,0 +1,80 @@
+########################################################
+# ISLANDS
+########################################################
+### READ all islands
+GET https://cse341-05-project.onrender.com/islands
+apiKey: mySuperSecretApiKey123456
+
+
+### READ one island
+GET https://cse341-05-project.onrender.com/islands/1
+apiKey: mySuperSecretApiKey123456
+
+
+### CREATE a new island
+POST https://cse341-05-project.onrender.com/islands
+Content-Type: application/json
+
+{
+  "country": "Fiji",
+  "population": 900000,
+  "language": "Fijian",
+  "capital": "Suva",
+  "subRegion": "Micronesia",
+  "climate": "Tropical",
+  "mainIndustries": "Tourism, Fishing",
+  "elevation": 1324
+}
+
+
+### UPDATE an island
+PUT https://cse341-05-project.onrender.com/islands/1
+Content-Type: application/json
+
+{
+  "subRegion": "Melanesia"
+}
+
+
+### DELETE one island
+DELETE https://cse341-05-project.onrender.com/islands/1
+
+
+########################################################
+# TRADITIONS
+########################################################
+
+### READ all traditions
+GET https://cse341-05-project.onrender.com/traditions/
+apiKey: mySuperSecretApiKey123456
+
+
+### READ one tradition
+GET https://cse341-05-project.onrender.com/traditions/1
+apiKey: mySuperSecretApiKey123456
+
+
+### CREATE a new tradition
+POST https://cse341-05-project.onrender.com/traditions/
+Content-Type: application/json
+
+{
+  "name": "Hula Dance",
+  "islandId": "1",
+  "description": "Traditional cultural dance",
+  "category": "Cultural",
+  "significance": "Represents island identity"
+}
+
+
+### UPDATE a tradition
+PUT https://cse341-05-project.onrender.com/traditions/1
+Content-Type: application/json
+
+{
+  "name": "Hula"
+}
+
+
+### DELETE one tradition
+DELETE https://cse341-05-project.onrender.com/traditions/1

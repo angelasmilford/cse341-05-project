@@ -1,25 +1,16 @@
-const routes = require('express').Router();
-const traditions = require('../controllers/tradition.js');
+const express = require('express');
+const router = express.Router();
+const traditionsController = require('../controllers/tradition');
+const validation = require('../middleware/tradition-validate');
 
-// GET all traditions
-routes.get('/', traditions.findAll);
+router.get('/', traditionsController.getAll);
 
-// GET tradition by ID
-routes.get('/:tradition_id', traditions.findOne);
+router.get('/:id', traditionsController.getSingle);
 
-// POST tradition
-routes.post('/', traditions.create);
+router.post('/', validation.saveTradition, traditionsController.createTradition);
 
-// PUT tradition
-routes.put('/:tradition_id', traditions.update);
+router.put('/:id', validation.saveTradition, traditionsController.updateTradition);
 
-// DELETE tradition
-routes.delete('/:tradition_id', traditions.delete);
+router.delete('/:id', traditionsController.deleteTradition);
 
-// DELETE all traditions
-routes.delete('/', traditions.deleteAll);
-
-// GET all published traditions
-// routes.get('/', traditions.findAllPublished);
-
-module.exports = routes;
+module.exports = router;

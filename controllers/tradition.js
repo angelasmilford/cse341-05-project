@@ -1,177 +1,108 @@
-const { name } = require('commander');
-const db = require('../models');
-const Tradition = db.traditions;
+const mongodb = require('../db/connect');
+const ObjectId = require('mongodb').ObjectId;
 
-const apiKey = 'mySuperSecretApiKey123456';
-
-exports.create = (req, res) => {
-    // Validate request
-    if (
-        !req.body.name ||
-        !req.body.islandId ||
-        !req.body.description ||
-        !req.body.category ||
-        !req.body.significance
-
-    ) {
-        res.status(400).send({ message: 'Content can not be empty!' });
-        return;
-    }
-
-    // Create a Tradition
-    const tradition = new Tradition({
-        name: req.body.name,
-        islandId: req.body.islandId,
-        description: req.body.description,
-        category: req.body.category,
-        significance: req.body.significance
+const getAll = (req, res) => {
+  mongodb
+    .getDb()
+    .db()
+    .collection('traditions')
+    .find()
+    .toArray((err, lists) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json(lists);
     });
-    // Save Tradition in the database
-    tradition
-        .save(tradition)
-        .then((data) => {
-            res.send(data);
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: 
-                    err.message || 'Some error occured while creating the Tradition.',
-            });
-        });
 };
 
-exports.findAll = (req, res) => {
-    console.log(req.header('apiKey'));
-    if(req.header('apiKey') === apiKey) {
-        Tradition.find(
-            {},
-            {
-                name: 1,
-                islandId: 1,
-                description: 1,
-                category: 1,
-                significance: 1
-            }
-        )
-            .then((data) => {
-                res.send(data);
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message:
-                        err.message || 'Some error occured while retrieving traditions.',
-                });
-            });
+const getSingle = (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json('Must use a valid tradition id to find a tradition.');
+  }
+  const traditionId = new ObjectId(req.params.id);
+  mongodb
+    .getDb()
+    .db()
+    .collection('traditions')
+    .find({ _id: traditionId })
+    .toArray((err, result) => {
+      if (err) {
+        return res.status(400).json({ message: err });
+      }
+      if(!result.length) {
+        return res.status(404).json({ message: 'Tradition not found' });
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json(result[0]);
+    });
+};
+
+const createTradition = async (req, res) => {
+  const tradition = {
+    name: req.body.name,
+    islandId: req.body.islandId,
+    description: req.body.description,
+    category: req.body.category,
+    significance: req.body.significance
+  };
+
+  try {
+    const response = await mongodb.getDb().db().collection('traditions').insertOne(tradition);
+    if (response.acknowledged) {
+      return res.status(201).json(response);
     } else {
-        res.send('Invalid apiKey, please read the documentation.');
+      return res.status(500).json(response.error || 'Some error occurred while creating the tradition.');
     }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 };
 
-// Find a single Tradition with an id
-exports.findOne = (req, res) => {
-    const tradition_id = req.params.tradition_id;
-    if(req.header('apiKey') === apiKey) {
-        Tradition.find({ tradition_id: tradition_id })
-            .then((data) => {
-                if(!data)
-                    res
-                        .status(404)
-                        .send({ message: 'Not found Tradition with id' + tradition_id });
-                else res.send(data[0]);
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message: 'Error retrieving Tradition with tradition_id=' + tradition_id,
-                });
-            });
-    } else {
-        res.send('Invalid apiKey, please read the documentation.');
-    }
+const updateTradition = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json('Must use a valid tradition id to update a tradition.');
+  }
+  const traditionId = new ObjectId(req.params.id);
+  // be aware of updateOne if you only want to update specific fields
+  const tradition = {
+    name: req.body.name,
+    islandId: req.body.islandId,
+    description: req.body.description,
+    category: req.body.category,
+    significance: req.body.significance
+  };
+  const response = await mongodb
+    .getDb()
+    .db()
+    .collection('traditions')
+    .replaceOne({ _id: traditionId }, tradition);
+  console.log(response);
+  if (response.modifiedCount > 0) {
+    return res.status(202).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while updating the tradition.');
+  }
 };
 
-// Update a Tradition by the id in the request
-exports.update = (req, res) => {
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).send({
-            message: 'Data to update can not be empty!',
-        });
-    }
-
-    const tradition_id = req.params.tradition_id;
-
-    Tradition.findOneAndUpdate(
-        { tradition_id: tradition_id },
-        req.body,
-        { new: true }
-    )
-        .then((data) => {
-            if (!data) {
-                res.status(404).send({
-                    message: `Cannot update Tradition with tradition_id=${tradition_id}.`,
-                });
-            } else {
-                res.send({
-                    message: 'Tradition was updated successfully.',
-                    data
-                });
-            }
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: 'Error updating Tradition with tradition_id=' + tradition_id,
-            });
-        });
+const deleteTradition = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json('Must use a valid tradition id to delete a tradition.');
+  }
+  const traditionId = new ObjectId(req.params.id);
+  const response = await mongodb.getDb().db().collection('traditions').deleteOne({ _id: traditionId }, true);
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while deleting the tradition.');
+  }
 };
 
-// Delete a Tradition with the specified id in the request
-exports.delete = (req, res) => {
-    const tradition_id = req.params.tradition_id;
-
-    Tradition.findOneAndDelete({ tradition_id: tradition_id })
-        .then((data) => {
-            if (!data) {
-                res.status(404).send({
-                    message: `Cannot delete Tradition with tradition_id=${tradition_id}.`,
-                });
-            } else {
-                res.send({
-                    message: 'Tradition was deleted successfully!',
-                });
-            }
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message: 'Could not delete Tradition with tradition_id=' + tradition_id,
-            });
-        });
+module.exports = {
+  getAll,
+  getSingle,
+  createTradition,
+  updateTradition,
+  deleteTradition
 };
-
-// Delete all Traditions from the database.
-exports.deleteAll = (req, res) => {
-    Tradition.deleteMany({})
-        .then((data) => {
-            res.send({
-                message: `${data.deletedCount} Traditions were deleted successfully!`,
-            });
-        })
-        .catch((err) => {
-            res.status(500).send({
-                message:
-                    err.message || 'Some error occurred while removing all traditions.',
-            });
-        });
-};
-
-// Find all published traditions
-// exports.findAllPublished = (req, res) => {
-    // Tradition.find({ published: true })
-        // .then((data) => {
-            // res.send(data);
-        // })
-        // .catch((err) => {
-            // res.status(500).send({
-                // message:
-                    // err.message || 'Some error occurred while retrieving traditions.',
-            // });
-        // });
-// };

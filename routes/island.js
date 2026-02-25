@@ -1,25 +1,17 @@
-const routes = require('express').Router();
-const islands = require('../controllers/island.js');
+const express = require('express');
+const router = express.Router();
 
-// GET all islands
-routes.get('/', islands.findAll);
+const islandsController = require('../controllers/island');
+const validation = require('../middleware/island-validate');
 
-// GET island by ID
-routes.get('/:island_id', islands.findOne);
+router.get('/', islandsController.getAll);
 
-// POST island
-routes.post('/', islands.create);
+router.get('/:id', islandsController.getSingle);
 
-// PUT island
-routes.put('/:island_id', islands.update);
+router.post('/', validation.saveIsland, islandsController.createIsland);
 
-// DELETE island
-routes.delete('/:island_id', islands.delete);
+router.put('/:id', validation.saveIsland, islandsController.updateIsland);
 
-// DELETE all islands
-routes.delete('/', islands.deleteAll);
+router.delete('/:id', islandsController.deleteIsland);
 
-// GET all published islands
-// routes.get('/', islands.findAllPublished);
-
-module.exports = routes;
+module.exports = router;

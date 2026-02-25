@@ -1,3 +1,6 @@
+########################################################
+# ISLANDS
+########################################################
 ### READ all islands
 GET http://localhost:3000/islands
 apiKey: mySuperSecretApiKey123456
@@ -18,10 +21,19 @@ Content-Type: application/json
   "population": 900000,
   "language": "Fijian",
   "capital": "Suva",
-  "subRegion": "Melanesia",
+  "subRegion": "Micronesia",
   "climate": "Tropical",
   "mainIndustries": "Tourism, Fishing",
   "elevation": 1324
+}
+
+
+### UPDATE an island
+PUT http://localhost:3000/islands/1
+Content-Type: application/json
+
+{
+  "subRegion": "Melanesia"
 }
 
 
@@ -29,13 +41,12 @@ Content-Type: application/json
 DELETE http://localhost:3000/islands/1
 
 
-
 ########################################################
 # TRADITIONS
 ########################################################
 
 ### READ all traditions
-GET http://localhost:3000/traditions
+GET http://localhost:3000/traditions/
 apiKey: mySuperSecretApiKey123456
 
 
@@ -45,7 +56,7 @@ apiKey: mySuperSecretApiKey123456
 
 
 ### CREATE a new tradition
-POST http://localhost:3000/traditions
+POST http://localhost:3000/traditions/
 Content-Type: application/json
 
 {
@@ -54,6 +65,15 @@ Content-Type: application/json
   "description": "Traditional cultural dance",
   "category": "Cultural",
   "significance": "Represents island identity"
+}
+
+
+### UPDATE a tradition
+PUT http://localhost:3000/traditions/1
+Content-Type: application/json
+
+{
+  "name": "Hula"
 }
 
 
