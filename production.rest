@@ -1,13 +1,14 @@
 ########################################################
 # ISLANDS
 ########################################################
+
 ### READ all islands
 GET https://cse341-05-project.onrender.com/islands
 apiKey: mySuperSecretApiKey123456
 
 
 ### READ one island
-GET https://cse341-05-project.onrender.com/islands/1
+GET https://cse341-05-project.onrender.com/islands/
 apiKey: mySuperSecretApiKey123456
 
 
@@ -28,7 +29,7 @@ Content-Type: application/json
 
 
 ### UPDATE an island
-PUT https://cse341-05-project.onrender.com/islands/1
+PUT https://cse341-05-project.onrender.com/islands/
 Content-Type: application/json
 
 {
@@ -37,7 +38,8 @@ Content-Type: application/json
 
 
 ### DELETE one island
-DELETE https://cse341-05-project.onrender.com/islands/1
+DELETE https://cse341-05-project.onrender.com/islands/
+
 
 
 ########################################################
@@ -45,17 +47,17 @@ DELETE https://cse341-05-project.onrender.com/islands/1
 ########################################################
 
 ### READ all traditions
-GET https://cse341-05-project.onrender.com/traditions/
+GET https://cse341-05-project.onrender.com/traditions
 apiKey: mySuperSecretApiKey123456
 
 
 ### READ one tradition
-GET https://cse341-05-project.onrender.com/traditions/1
+GET https://cse341-05-project.onrender.com/traditions/
 apiKey: mySuperSecretApiKey123456
 
 
 ### CREATE a new tradition
-POST https://cse341-05-project.onrender.com/traditions/
+POST https://cse341-05-project.onrender.com/traditions
 Content-Type: application/json
 
 {
@@ -68,7 +70,7 @@ Content-Type: application/json
 
 
 ### UPDATE a tradition
-PUT https://cse341-05-project.onrender.com/traditions/1
+PUT https://cse341-05-project.onrender.com/traditions/
 Content-Type: application/json
 
 {
@@ -77,4 +79,7 @@ Content-Type: application/json
 
 
 ### DELETE one tradition
-DELETE https://cse341-05-project.onrender.com/traditions/1
+DELETE https://cse341-05-project.onrender.com/traditions/
+
+### DELETE all traditions
+DELETE https//cse341-05-project.onrender.com/traditions

@@ -7,7 +7,7 @@ apiKey: mySuperSecretApiKey123456
 
 
 ### READ one island
-GET http://localhost:3000/islands/1
+GET http://localhost:3000/islands/69a031d28780d3922ce094cb
 apiKey: mySuperSecretApiKey123456
 
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 
 
 ### UPDATE an island
-PUT http://localhost:3000/islands/1
+PUT http://localhost:3000/islands/69a031d28780d3922ce094cb
 Content-Type: application/json
 
 {
@@ -38,7 +38,11 @@ Content-Type: application/json
 
 
 ### DELETE one island
-DELETE http://localhost:3000/islands/1
+DELETE http://localhost:3000/islands/69a031d28780d3922ce094cb
+
+### DELETE all islands
+DELETE http://localhost:3000/islands
+
 
 
 ########################################################
@@ -46,17 +50,17 @@ DELETE http://localhost:3000/islands/1
 ########################################################
 
 ### READ all traditions
-GET http://localhost:3000/traditions/
+GET http://localhost:3000/traditions
 apiKey: mySuperSecretApiKey123456
 
 
 ### READ one tradition
-GET http://localhost:3000/traditions/1
+GET http://localhost:3000/traditions/
 apiKey: mySuperSecretApiKey123456
 
 
 ### CREATE a new tradition
-POST http://localhost:3000/traditions/
+POST http://localhost:3000/traditions
 Content-Type: application/json
 
 {
@@ -78,4 +82,7 @@ Content-Type: application/json
 
 
 ### DELETE one tradition
-DELETE http://localhost:3000/traditions/1
+DELETE http://localhost:3000/traditions/
+
+### DELETE all traditions
+DELETE http://localhost:3000/traditions

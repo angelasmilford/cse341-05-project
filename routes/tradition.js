@@ -13,4 +13,6 @@ router.put('/:id', validation.saveTradition, traditionsController.updateTraditio
 
 router.delete('/:id', traditionsController.deleteTradition);
 
+router.delete('/', traditionsController.deleteAllTraditions);
+
 module.exports = router;

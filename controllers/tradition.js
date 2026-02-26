@@ -1,6 +1,8 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
+
+// READ
 const getAll = (req, res) => {
   mongodb
     .getDb()
@@ -38,6 +40,8 @@ const getSingle = (req, res) => {
     });
 };
 
+
+// CREATE
 const createTradition = async (req, res) => {
   const tradition = {
     name: req.body.name,
@@ -59,6 +63,8 @@ const createTradition = async (req, res) => {
   }
 };
 
+
+// UPDATE
 const updateTradition = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).json('Must use a valid tradition id to update a tradition.');
@@ -79,12 +85,14 @@ const updateTradition = async (req, res) => {
     .replaceOne({ _id: traditionId }, tradition);
   console.log(response);
   if (response.modifiedCount > 0) {
-    return res.status(202).send();
+    return res.status(202).json({ message: 'Tradition successfully updated' });
   } else {
     res.status(500).json(response.error || 'Some error occurred while updating the tradition.');
   }
 };
 
+
+// DELETE
 const deleteTradition = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).json('Must use a valid tradition id to delete a tradition.');
@@ -93,16 +101,32 @@ const deleteTradition = async (req, res) => {
   const response = await mongodb.getDb().db().collection('traditions').deleteOne({ _id: traditionId }, true);
   console.log(response);
   if (response.deletedCount > 0) {
-    res.status(204).send();
+    res.status(204).json({ message: 'Tradition successfully deleted' });
   } else {
     res.status(500).json(response.error || 'Some error occurred while deleting the tradition.');
   }
 };
+
+const deleteAllTraditions = async (req, res) => {
+  try {
+    const result = await mongodb
+      .getDb()
+      .db()
+      .collection('traditions')
+      .deleteMany({});
+
+    res.status(204).json({ message: 'Traditions successfully deleted' });
+  } catch (err) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 module.exports = {
   getAll,
   getSingle,
   createTradition,
   updateTradition,
-  deleteTradition
+  deleteTradition,
+  deleteAllTraditions
 };

@@ -5,10 +5,10 @@
     "description": "Pacific Islands API | API Key: mySuperSecretApiKey123456",
     "version": "1.0.0"
   },
-  "host": "cse341-05-project.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/islands": {
@@ -112,19 +112,17 @@
         }
       }
     },
-    "/islands/{island_id}": {
+    "/islands/{id}": {
       "get": {
         "description": "Read a specific island",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          }, 
+          },
           {
             "name": "apiKey",
             "in": "header",
@@ -132,20 +130,13 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
         }
       },
+
       "put": {
         "description": "Update a specific island",
         "parameters": [
@@ -158,55 +149,35 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "country": {
-                  "example": "any"
-                },
-                "population": {
-                  "example": "any"
-                },
-                "language": {
-                  "example": "any"
-                },
-                "capital": {
-                  "example": "any"
-                },
-                "subRegion": {
-                  "example": "any"
-                },
-                "climate": {
-                  "example": "any"
-                },
+                "name": { "type": "string", "example": "Updated Name" },
+                "country": { "type": "string", "example": "Updated Country" },
+                "population": { "type": "number", "example": 100000 },
+                "language": { "type": "string", "example": "English" },
+                "capital": { "type": "string", "example": "Updated Capital" },
+                "subRegion": { "type": "string", "example": "Polynesia" },
+                "climate": { "type": "string", "example": "Tropical" },
                 "mainIndustries": {
-                  "example": "any"
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "example": ["Tourism", "Fishing"]
                 },
-                "elevation": {
-                  "example": "any"
-                }
+                "elevation": { "type": "number", "example": 500 }
               }
             }
           }
         ],
         "responses": {
-          "202": {
-            "description": "Accepted"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "202": { "description": "Accepted" },
+          "400": { "description": "Bad Request" },
+          "412": { "description": "Precondition Failed" },
+          "500": { "description": "Internal Server Error" }
         }
       },
+
       "delete": {
         "description": "Delete a specific island",
         "parameters": [
@@ -218,15 +189,9 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },

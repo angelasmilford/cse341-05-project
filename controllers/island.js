@@ -1,6 +1,8 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
+
+// READ
 const getAll = (req, res) => {
   mongodb
     .getDb()
@@ -38,6 +40,8 @@ const getSingle = (req, res) => {
     });
 };
 
+
+// CREATE
 const createIsland = async (req, res) => {
   const island = {
     name: req.body.name,
@@ -63,54 +67,66 @@ const createIsland = async (req, res) => {
   }
 };
 
+
+// UPDATE
 const updateIsland = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).json('Must use a valid island id to update a island.');
   }
   const islandId = new ObjectId(req.params.id);
-  // be aware of updateOne if you only want to update specific fields
-  const island = {
-    name: req.body.name,
-    country: req.body.country,
-    population: req.body.population,
-    language: req.body.language,
-    capital: req.body.capital,
-    subRegion: req.body.subRegion,
-    climate: req.body.climate,
-    mainIndustries: req.body.mainIndustries,
-    elevation: req.body.elevation
-  };
   const response = await mongodb
     .getDb()
     .db()
     .collection('islands')
-    .replaceOne({ _id: islandId }, island);
+    .updateOne(
+      { _id: islandId },
+      { $set: req.body }
+    );
+
   console.log(response);
   if (response.modifiedCount > 0) {
-    return res.status(202).send();
+    return res.status(202).json({ message: 'Island successfully updated' });
   } else {
     res.status(500).json(response.error || 'Some error occurred while updating the island.');
   }
 };
 
+
+// DELETE
 const deleteIsland = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
-    return res.status(400).json('Must use a valid island id to delete a island.');
+    return res.status(400).json('Must use a valid island id to delete an island.');
   }
   const islandId = new ObjectId(req.params.id);
   const response = await mongodb.getDb().db().collection('islands').deleteOne({ _id: islandId }, true);
   console.log(response);
   if (response.deletedCount > 0) {
-    res.status(204).send();
+    res.status(204).json({ message: 'Island successfully deleted' });
   } else {
     res.status(500).json(response.error || 'Some error occurred while deleting the island.');
   }
 };
+
+const deleteAllIslands = async (req, res) => {
+  try {
+    const result = await mongodb
+      .getDb()
+      .db()
+      .collection('islands')
+      .deleteMany({});
+
+    res.status(204).json({ message: 'Islands successfully deleted' });
+  } catch (err) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 module.exports = {
   getAll,
   getSingle,
   createIsland,
   updateIsland,
-  deleteIsland
+  deleteIsland,
+  deleteAllIslands
 };
