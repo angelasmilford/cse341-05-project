@@ -3,6 +3,7 @@ const island = require('./island');
 const tradition = require('./tradition');
 
 routes.use('/', require('./swagger'));
+routes.use('/auth', auth);
 routes.use('/islands', island);
 routes.use('/traditions', tradition);
 routes.use(
