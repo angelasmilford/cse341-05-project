@@ -1,6 +1,8 @@
 const routes = require('express').Router();
+
 const island = require('./island');
 const tradition = require('./tradition');
+const auth = require('./auth');
 
 routes.use('/', require('./swagger'));
 routes.use('/auth', auth);
