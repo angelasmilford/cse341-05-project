@@ -1,4 +1,10 @@
+require('dotenv').config();
+require('./config/passport');
+
+
+// --------------------
 // Module dependencies
+// ---------------------
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -17,15 +23,22 @@ const { MongoDBNamespace } = require('mongodb');
 const bodyParser = require('body-parser');
 const mongodb = require('./db/connect');
 
+const session = require('express-session');
+const passport = require('passport');
 
+
+// -----------
 // Middleware
+// -----------
 app
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use(cors())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use('/', require('./routes'))
-  .use(bodyParser.json());
+  .use(bodyParser.json())
+  .use(passport.initialize())
+  .use(passport.session());
 
 app.use('/graphql', graphqlHTTP({
   schema,
@@ -37,15 +50,22 @@ app.use((req, res, next) => {
   next();
 })
 
+app.use(session({
+  secret: 'mySecretKey',
+  resave: false,
+  saveUninitialized: false
+}));
 
 
+// --------------------------------
 process.on('uncaughtException', (err, origin) => {
   console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
 })
 
 
-
+// --------------------
 // Database connection
+// --------------------
 mongodb.initDb((err) => {
   if (err) {
     console.log('Failed to connect to the database', err);
