@@ -28,4 +28,9 @@ router.get('/logout', (req, res) => {
   });
 });
 
+// Test route
+router.get('/me', (req, res) => {
+  res.json(req.user);
+});
+
 module.exports = router;
