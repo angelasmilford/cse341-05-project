@@ -234,8 +234,8 @@
                   "example": "Hula"
                 },
                 "islandId": {
-                  "type": "number",
-                  "example": 1
+                  "type": "string",
+                  "example": "69ae9fbd9f1c111bf5a37e84"
                 },
                 "description": {
                   "type": "string",
@@ -280,7 +280,7 @@
         }
       }
     },
-    "/traditions/{tradition_id}": {
+    "/traditions/{id}": {
       "get": {
         "description": "Read a specific tradition",
         "produces": [
