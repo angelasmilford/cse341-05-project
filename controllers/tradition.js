@@ -45,7 +45,7 @@ const getSingle = (req, res) => {
 const createTradition = async (req, res) => {
   const tradition = {
     name: req.body.name,
-    islandId: req.body.islandId,
+    islandId: new ObjectId(req.body.islandId),
     description: req.body.description,
     category: req.body.category,
     significance: req.body.significance
@@ -73,7 +73,7 @@ const updateTradition = async (req, res) => {
   // be aware of updateOne if you only want to update specific fields
   const tradition = {
     name: req.body.name,
-    islandId: req.body.islandId,
+    islandId: new ObjectId(req.body.islandId),
     description: req.body.description,
     category: req.body.category,
     significance: req.body.significance

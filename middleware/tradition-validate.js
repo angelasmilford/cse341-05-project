@@ -3,7 +3,7 @@ const validator = require('../helpers/validate');
 const saveTradition = (req, res, next) => {
   const validationRule = {
     name: 'required|string',
-    islandId: 'required|numeric',
+    islandId: 'required|string',
     description: 'required|string',
     category: 'required|string',
     significance: 'required|string'
@@ -28,7 +28,7 @@ const updateIsland = (req, res, next) => {
 
   const validationRule = {
     name: 'string',
-    islandId: 'numeric',
+    islandId: 'string',
     description: 'string',
     category: 'string',
     significance: 'string'
