@@ -21,6 +21,21 @@ const getSingle = async (req, res) => {
   }
 };
 
+// READ ALL of an island's traditions(s)
+const getTraditionsByIsland = async (req, res) => {
+  try {
+    const traditions = await Tradition.find({ islandId: req.params.id });
+
+    if (!traditions.length) {
+      return res.status(404).json({ message: 'No traditions found for this island' });
+    }
+
+    res.status(200).json(traditions);
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid island ID' });
+  }
+};
+
 // CREATE
 const createTradition = async (req, res) => {
   try {
@@ -73,6 +88,7 @@ const deleteAllTraditions = async (req, res) => {
 module.exports = {
   getAll,
   getSingle,
+  getTraditionsByIsland,
   createTradition,
   updateTradition,
   deleteTradition,
