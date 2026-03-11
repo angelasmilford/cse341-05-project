@@ -17,14 +17,30 @@ The project also demonstrates:
 
 ## Instructions to run application
 
-- Run npm install in the terminal
-- npm start
+- Run ```npm install``` in the terminal
+- ```npm start```
 - The API will run on: http://localhost:3000/
 - Swagger Documentation should be available at: http://localhost:3000/api-docs
+
+## Environment Setup
+Before running the application, create a .env file and include your MongoDB credentials:
+
+```MONGODB_URI=your_mongodb_connection_string```
+
+Example:
+
+```MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/pacificislands```
 
 ## Things to look out for
 
 - Explore the API using Swagger UI
+- Test routes such as:
+```
+GET /islands
+GET /traditions
+POST /traditions
+PUT /traditions/{id}
+```
 
 ## Technologies used
 - Node.js
