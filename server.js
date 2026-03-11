@@ -62,13 +62,23 @@ process.on('uncaughtException', (err, origin) => {
 // --------------------
 // Database connection
 // --------------------
-mongodb.initDb((err) => {
-  if (err) {
-    console.log('Failed to connect to the database', err);
-  } else {
-    app.listen(port, () => {
-      console.log(`Connected to the database successfully!`);
-      console.log(`Server is running on port ${port}`);
-    });
-  }
+// mongodb.initDb((err) => {
+//   if (err) {
+//     console.log('Failed to connect to the database', err);
+//   } else {
+//     app.listen(port, () => {
+//       console.log(`Connected to the database successfully!`);
+//       console.log(`Server is running on port ${port}`);
+//     });
+//   }
+// });
+
+const initDb = require('./db/connect');
+
+initDb().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}).catch(err => {
+  console.error('Failed to start server:', err);
 });
