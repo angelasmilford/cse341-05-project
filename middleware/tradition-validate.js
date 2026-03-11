@@ -21,7 +21,7 @@ const saveTradition = (req, res, next) => {
   });
 };
 
-const updateIsland = (req, res, next) => {
+const updateTradition = (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
     return res.status(400).json({ message: "Data to update cannot be empty!" });
   }
@@ -47,5 +47,6 @@ const updateIsland = (req, res, next) => {
 }
 
 module.exports = {
-  saveTradition
+  saveTradition,
+  updateTradition
 };

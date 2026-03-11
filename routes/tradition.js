@@ -9,7 +9,7 @@ router.get('/:id', traditionsController.getSingle);
 
 router.post('/', validation.saveTradition, traditionsController.createTradition);
 
-router.put('/:id', validation.saveTradition, traditionsController.updateTradition);
+router.put('/:id', validation.updateTradition, traditionsController.updateTradition);
 
 router.delete('/:id', traditionsController.deleteTradition);
 
