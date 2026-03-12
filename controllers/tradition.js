@@ -57,7 +57,7 @@ const createTradition = async (req, res) => {
 const updateTradition = async (req, res) => {
   try {
     const tradition = await Tradition.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!island) return res.status(404).json({ message: 'Tradition not found' });
+    if (!tradition) return res.status(404).json({ message: 'Tradition not found' });
     res.status(202).json(tradition);
   } catch (err) {
     res.status(400).json({ message: 'Invalid tradition ID or data' });
