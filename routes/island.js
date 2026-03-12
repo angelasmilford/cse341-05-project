@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const traditionsController = require('../controllers/tradition');
-
 const islandsController = require('../controllers/island');
 const validation = require('../middleware/island-validate');
 
