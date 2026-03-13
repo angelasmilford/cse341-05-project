@@ -73,7 +73,7 @@ process.on('uncaughtException', (err, origin) => {
 //   }
 // });
 
-const initDb = require('./db/connect');
+const initDb = mongodb;
 
 initDb().then(() => {
   app.listen(port, () => {
