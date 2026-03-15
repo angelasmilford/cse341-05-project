@@ -1,37 +1,40 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const mongodb = require('../db/connect');
+const User = require('../models/user');
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    //callbackURL: "http://localhost:3000/auth/google/callback"
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    const db = mongodb.getDb().db();
-    const users = db.collection("users");
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  //callbackURL: "http://localhost:3000/auth/google/callback"
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
+},
+async (accessToken, refreshToken, profile, done) => {
 
-    let user = await users.findOne({ googleId: profile.id });
+  try {
+    let user = await User.findOne({ googleId: profile.id });
 
     if (!user) {
-      user = {
+      user = await User.create({
         googleId: profile.id,
         displayName: profile.displayName,
         email: profile.emails[0].value
-      };
-      await users.insertOne(user);
+      });
     }
 
     return done(null, user);
+
+  } catch (err) {
+    return done(err, null);
   }
-));
+
+}));
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id);
   done(null, user);
 });
 

@@ -35,7 +35,7 @@ app.use(session({
 app
   .use(passport.initialize())
   .use(passport.session())
-  .use(cors())
+  //.use(cors())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(bodyParser.json())
@@ -47,10 +47,11 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(cors({
+  //origin: 'http://localhost:3000',
+  origin: 'https://cse341-05-project.onrender.com',
+  credentials: true
+}));
 
 
 // --------------------------------
@@ -73,7 +74,7 @@ process.on('uncaughtException', (err, origin) => {
 //   }
 // });
 
-const initDb = mongodb;
+const initDb = require('./db/connect');
 
 initDb().then(() => {
   app.listen(port, () => {
